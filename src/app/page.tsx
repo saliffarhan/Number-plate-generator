@@ -97,15 +97,15 @@ export default function Home() {
         <div className="flex flex-col items-center w-full">
           <div
             ref={numberPlateRef}
-            className={`my-6 rounded-lg shadow-sm overflow-hidden w-full max-w-[280px] ${vehicleType === 'car'
+            className={`my-6 rounded-lg bg-white shadow-sm overflow-hidden w-full max-w-[280px] ${vehicleType === 'car'
               ? 'border border-black'
               : 'border-2 border-black'
               }`}
           >
             {vehicleType === 'car' && (
               <>
-                <div className="w-full h-8 bg-[url('/sindh.webp')] bg-cover bg-center" />
-                <div className="flex justify-between items-center w-full py-1 mt-3 px-6 text-3xl sm:text-4xl font-bold text-black">
+                <div className="w-full bg-white h-8 bg-[url('/sindh.webp')] bg-cover bg-center" />
+                <div className="flex bg-white justify-between items-center w-full py-1 mt-3 px-6 text-3xl sm:text-4xl font-bold text-black">
                   <span>{letters}</span>
                   <div className="w-7 h-9">
                     <img
@@ -121,22 +121,22 @@ export default function Home() {
                 </div>
               </>
             )}
-{vehicleType === 'bike' && (
-  <div className="relative w-full max-w-[280px] sm:max-w-[240px] md:max-w-[300px] border overflow-hidden">
-    
-    {/* Ajrak + SINDH (top-left corner) */}
-    <div className="absolute  flex flex-col items-center z-10">
-      <div className="w-10 h-16 lg:w-10 lg:h-16 sm:w-10 sm:h-11 bg-[url('/sindh.webp')] bg-cover bg-center rounded-sm" />
-      <span className="text-[10px] sm:text-xs font-semibold text-black lg:mt-5 mt-2">SINDH</span>
-    </div>
+            {vehicleType === 'bike' && (
+              <div className="relative w-full max-w-[280px] sm:max-w-[240px] md:max-w-[300px] border overflow-hidden">
 
-    {/* Plate number content */}
-    <div className="flex flex-col justify-center items-center py-3 px-4 h-[100px] sm:h-[120px]">
-      <span className="text-2xl sm:text-3xl font-bold tracking-widest">{letters}</span>
-      <span className="text-2xl sm:text-3xl font-bold tracking-widest">{digits}</span>
-    </div>
-  </div>
-)}
+                {/* Ajrak + SINDH (top-left corner) */}
+                <div className="absolute  flex flex-col items-center z-10">
+                  <div className="w-10 h-16 lg:w-10 lg:h-16 sm:w-10 sm:h-11 bg-[url('/sindh.webp')] bg-cover bg-center rounded-sm" />
+                  <span className="text-[10px] sm:text-xs font-semibold text-black lg:mt-5 mt-2">SINDH</span>
+                </div>
+
+                {/* Plate number content */}
+                <div className="flex flex-col justify-center items-center py-3 px-4 h-[100px] sm:h-[120px]">
+                  <span className="text-2xl sm:text-3xl font-bold text-black tracking-widest">{letters}</span>
+                  <span className="text-2xl sm:text-3xl font-bold text-black tracking-widest">{digits}</span>
+                </div>
+              </div>
+            )}
 
 
 
