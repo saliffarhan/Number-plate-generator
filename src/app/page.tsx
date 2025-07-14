@@ -38,11 +38,11 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-8 gap-6 bg-gray-50">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-6 gap-6 bg-white">
       <img src="trafic.png" alt="police" className="w-[200px] sm:w-[250px] h-auto" />
 
-      <h1 className="text-2xl sm:text-3xl font-black text-gray-600 text-center">Number Plate Generator</h1>
-      <p className="text-sm sm:text-base font-semibold text-center">Fill out your vehicle number</p>
+      <h1 className="text-2xl sm:text-3xl font-black text-gray-700 text-center">Number Plate Generator</h1>
+      <p className="text-sm sm:text-base bg-red-600 px-5 rounded-lg py-1 font-semibold text-center">Fill out your vehicle number</p>
 
       {/* Input Fields */}
       <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
@@ -64,7 +64,7 @@ export default function Home() {
         />
       </div>
 
-      <p className="text-sm sm:text-base font-semibold text-center">Select any vehicle type</p>
+      <p className="text-sm sm:text-base bg-red-600 px-5 rounded-lg py-1 font-semibold text-center">Select any vehicle type</p>
 
       {/* Vehicle Type Buttons */}
       <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md justify-center">
@@ -116,7 +116,7 @@ export default function Home() {
                   </div>
                   <span>{digits}</span>
                 </div>
-                <div className="bg-white text-center text-base sm:text-lg font-semibold tracking-widest py-1">
+                <div className="bg-white text-gray-700 text-center text-base sm:text-lg font-semibold tracking-widest py-1">
                   SINDH
                 </div>
               </>
@@ -126,14 +126,14 @@ export default function Home() {
 
                 {/* Ajrak + SINDH (top-left corner) */}
                 <div className="absolute  flex flex-col items-center z-10">
-                  <div className="w-10 h-16 lg:w-10 lg:h-16 sm:w-10 sm:h-11 bg-[url('/sindh.webp')] bg-cover bg-center rounded-sm" />
-                  <span className="text-[10px] sm:text-xs font-semibold text-black lg:mt-5 mt-2">SINDH</span>
+                  <div className="w-10 h-16 lg:w-10 lg:h-16 sm:w-10 sm:h-11 bg-[url('/sindh.webp')] bg-cover bg-center rounded-md" />
+                  <span className="text-[10px] sm:text-xs font-semibold tracking-widest text-black lg:mt-5 mt-3">SINDH</span>
                 </div>
 
                 {/* Plate number content */}
                 <div className="flex flex-col justify-center items-center py-3 px-4 h-[100px] sm:h-[120px]">
-                  <span className="text-2xl sm:text-3xl font-bold text-black tracking-widest">{letters}</span>
-                  <span className="text-2xl sm:text-3xl font-bold text-black tracking-widest">{digits}</span>
+                  <span className="text-3xl sm:text-3xl font-bold text-black tracking-widest">{letters}</span>
+                  <span className="text-3xl sm:text-3xl font-bold text-black tracking-widest">{digits}</span>
                 </div>
               </div>
             )}
