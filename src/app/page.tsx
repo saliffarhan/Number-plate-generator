@@ -1,101 +1,157 @@
-import Image from "next/image";
+'use client'
+import { useState, useRef } from 'react'
+import html2canvas from 'html2canvas'
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [letters, setLetters] = useState('')
+  const [digits, setDigits] = useState('')
+  const [vehicleType, setVehicleType] = useState('')
+  const [showPlate, setShowPlate] = useState(false)
+  const numberPlateRef = useRef(null)
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const handleLettersChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '')
+    setLetters(value)
+  }
+
+  const handleDigitsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/[^0-9]/g, '')
+    setDigits(value)
+  }
+
+  const downloadPlate = async () => {
+    if (numberPlateRef.current) {
+      const canvas = await html2canvas(numberPlateRef.current)
+      const link = document.createElement('a')
+      link.download = 'number-plate.png'
+      link.href = canvas.toDataURL()
+      link.click()
+    }
+  }
+
+  const handleGenerate = () => {
+    if (vehicleType && letters && digits) {
+      setShowPlate(true)
+    } else {
+      alert('Please select any vehicle type')
+    }
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-8 gap-6 bg-gray-50">
+      <img src="trafic.png" alt="police" className="w-[200px] sm:w-[250px] h-auto" />
+
+      <h1 className="text-2xl sm:text-3xl font-black text-gray-600 text-center">Number Plate Generator</h1>
+      <p className="text-sm sm:text-base font-semibold text-center">Fill out your vehicle number</p>
+
+      {/* Input Fields */}
+      <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
+        <input
+          type="text"
+          placeholder="XYZ"
+          value={letters}
+          onChange={handleLettersChange}
+          maxLength={3}
+          className="w-full border-[2px] border-blue-950 text-blue-950 px-4 py-2 rounded text-center uppercase"
+        />
+        <input
+          type="text"
+          placeholder="000"
+          value={digits}
+          onChange={handleDigitsChange}
+          maxLength={4}
+          className="w-full border-[2px] border-blue-950 text-blue-950 px-4 py-2 rounded text-center"
+        />
+      </div>
+
+      <p className="text-sm sm:text-base font-semibold text-center">Select any vehicle type</p>
+
+      {/* Vehicle Type Buttons */}
+      <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md justify-center">
+        <button
+          onClick={() => setVehicleType('car')}
+          className={`bg-blue-950 text-white font-semibold py-3 md:px-20 rounded hover:rounded-xl hover:duration-200 ${vehicleType === 'car' ? 'ring-2 ring-blue-500' : ''
+            }`}
+        >
+          Car
+        </button>
+        <button
+          onClick={() => setVehicleType('bike')}
+          className={`bg-blue-950 text-white font-semibold md:px-20 py-3 rounded hover:rounded-xl hover:duration-200 ${vehicleType === 'bike' ? 'ring-2 ring-green-700' : ''
+            }`}
+        >
+          Bike
+        </button>
+      </div>
+
+      {/* Generate Button */}
+      <button
+        onClick={handleGenerate}
+        className="hover:border-[2px] hover:border-gray-950 bg-zinc-800 hover:duration-300 text-white hover:text-black hover:bg-white font-semibold px-16 py-3 rounded"
+      >
+        Generate
+      </button>
+
+      {/* Number Plate UI */}
+      {showPlate && (
+        <div className="flex flex-col items-center w-full">
+          <div
+            ref={numberPlateRef}
+            className={`my-6 rounded-lg shadow-sm overflow-hidden w-full max-w-[280px] ${vehicleType === 'car'
+              ? 'border border-black'
+              : 'border-2 border-black'
+              }`}
           >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+            {vehicleType === 'car' && (
+              <>
+                <div className="w-full h-8 bg-[url('/sindh.webp')] bg-cover bg-center" />
+                <div className="flex justify-between items-center w-full py-1 mt-3 px-6 text-3xl sm:text-4xl font-bold text-black">
+                  <span>{letters}</span>
+                  <div className="w-7 h-9">
+                    <img
+                      src="/quid.png"
+                      alt="emblem"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <span>{digits}</span>
+                </div>
+                <div className="bg-white text-center text-base sm:text-lg font-semibold tracking-widest py-1">
+                  SINDH
+                </div>
+              </>
+            )}
+{vehicleType === 'bike' && (
+  <div className="relative w-full max-w-[280px] sm:max-w-[240px] md:max-w-[300px] border overflow-hidden">
+    
+    {/* Ajrak + SINDH (top-left corner) */}
+    <div className="absolute  flex flex-col items-center z-10">
+      <div className="w-10 h-16 lg:w-10 lg:h-16 sm:w-10 sm:h-11 bg-[url('/sindh.webp')] bg-cover bg-center rounded-sm" />
+      <span className="text-[10px] sm:text-xs font-semibold text-black lg:mt-5 mt-2">SINDH</span>
     </div>
-  );
+
+    {/* Plate number content */}
+    <div className="flex flex-col justify-center items-center py-3 px-4 h-[100px] sm:h-[120px]">
+      <span className="text-2xl sm:text-3xl font-bold tracking-widest">{letters}</span>
+      <span className="text-2xl sm:text-3xl font-bold tracking-widest">{digits}</span>
+    </div>
+  </div>
+)}
+
+
+
+
+          </div>
+
+          {/* Download Button */}
+          <button
+            onClick={downloadPlate}
+            className="mt-4 bg-blue-950 text-white font-semibold px-10 py-3 rounded hover:rounded-xl hover:duration-200"
+          >
+            Download
+          </button>
+        </div>
+      )}
+    </div>
+  )
 }
